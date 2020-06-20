@@ -4,7 +4,8 @@ import {
     API_KEY,
     API_BASE_URL,
     POSTER_SIZE,
-    BACKDROP_SIZE 
+    BACKDROP_SIZE, 
+    IMAGE_BASE_URL
 } from '../config';
 
 import HeroImage from './elements/HeroImage';
@@ -21,9 +22,16 @@ import {useHomeFetch} from './hooks/useHomeFetch'
 const Home = () => {
     const [{state, loading, error}, fetchMovies] = useHomeFetch();
 
+    if(error) return <div>Something went wrong!</div>
+    if(!state.movies[0]) return <Spinner />
+
     return (
         <>
-            <HeroImage/>
+            <HeroImage
+                image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${state.heroImage.backdrop_path}`}
+                title={state.HeroImage.original_title}
+                text={state.HeroImage.overview}
+            />
             <SearchBar/>
             <Grid/>
             <MovieThumb/>
